@@ -8,7 +8,7 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "rm -r dist && tsc",
     "lint": "eslint src/",
     "test": "jest",
     "release": "tsc && release-it --github.release",
