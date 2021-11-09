@@ -16,3 +16,43 @@ r.stringify() // returns a JSON string representing the entire test run
 // or
 r.toFile('myreport.json') // writes the JSON to a file instead
 ```
+
+The resulting JSON of the above example is:
+```json
+{
+  "status": "failed",
+  "attachments": [],
+  "suites": [
+    {
+      "name": "somegroup",
+      "status": "failed",
+      "suites": [
+        {
+          "name": "somefile.test.js",
+          "status": "failed",
+          "suites": [],
+          "attachments": [],
+          "tests": [
+            {
+              "name": "yay",
+              "status": "passed",
+              "startTime": "2021-11-09T21:10:59.550Z",
+              "duration": 123,
+              "attachments": []
+            },
+            {
+              "name": "nay",
+              "status": "failed",
+              "startTime": "2021-11-09T21:10:59.550Z",
+              "duration": 123,
+              "attachments": []
+            }
+          ]
+        }
+      ],
+      "attachments": [],
+      "tests": []
+    }
+  ]
+}
+```
