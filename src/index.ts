@@ -123,10 +123,10 @@ export class Suite {
     withTest(
         name: string,
         status: Status = Status.Skipped,
-        startTime: Date = new Date(),
         duration = 0,
-        metadata?: object,
         output?: string,
+        startTime: Date = new Date(),
+        metadata?: object,
         attachments: Attachment[] = new Array<Attachment>()
     ): Test {
         const test = new Test(name, status, duration, output, startTime, attachments, metadata)

@@ -14,11 +14,11 @@ TestRun {
       "tests": Array [
         Test {
           "attachments": Array [],
-          "duration": 123,
+          "duration": 2021-11-09T00:21:26.836Z,
           "metadata": undefined,
           "name": "yay",
-          "output": undefined,
-          "startTime": 2021-11-09T00:21:26.836Z,
+          "output": 123,
+          "startTime": 2021-11-09T18:32:58.112Z,
           "status": "passed",
         },
       ],
