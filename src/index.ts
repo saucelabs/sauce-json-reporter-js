@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from "fs"
 
 export enum Status {
     Passed = "passed",
@@ -54,14 +54,14 @@ export class TestRun {
         return suite
     }
 
-    stringify(computeStatus: boolean = true): string {
+    stringify(computeStatus = true): string {
         if (computeStatus) {
             this.computeStatus()
         }
         return JSON.stringify(this, null, 2)
     }
 
-    toFile(filepath: string, computeStatus: boolean = true) {
+    toFile(filepath: string, computeStatus = true) {
         if (computeStatus) {
             this.computeStatus()
         }
@@ -124,7 +124,7 @@ export class Suite {
         name: string,
         status: Status = Status.Skipped,
         startTime: Date = new Date(),
-        duration: number = 0,
+        duration = 0,
         metadata?: object,
         output?: string,
         attachments: Attachment[] = new Array<Attachment>()
@@ -151,7 +151,7 @@ export class Test {
     constructor(
         name: string,
         status: Status = Status.Skipped,
-        duration: number = 0,
+        duration = 0,
         output?: string,
         startTime: Date = new Date(),
         attachments: Attachment[] = new Array<Attachment>(),
