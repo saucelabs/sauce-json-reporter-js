@@ -8,7 +8,7 @@ const { TestRun, Status } = require('@saucelabs/sauce-json-reporter');
 
 let r = new TestRun()
 const s1 = r.withSuite('somegroup')
-const s2 = p.withSuite('somefile.test.js')
+const s2 = s1.withSuite('somefile.test.js')
 s2.withTest('yay', Status.Passed, 123)
 s2.withTest('nay', Status.Failed, 123)
 
