@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`stringify() renders correctly 1`] = `
+Run {
+  "attachments": Array [],
+  "status": "skipped",
+  "suites": Array [
+    Suite {
+      "attachments": Array [],
+      "metadata": undefined,
+      "name": "passed",
+      "status": "passed",
+      "suites": Array [],
+      "tests": Array [
+        Test {
+          "attachments": Array [],
+          "duration": 123,
+          "metadata": undefined,
+          "name": "yay",
+          "output": undefined,
+          "startTime": 2021-11-09T00:21:26.836Z,
+          "status": "passed",
+        },
+      ],
+    },
+  ],
+}
+`;
