@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "node scripts/rmdir.js dist && tsc",
-    "lint": "npx eslint src/",
+    "lint": "eslint src/",
     "test": "jest",
     "release": "tsc && release-it --github.release",
     "release:ci": "tsc && npm run release -- --ci --no-git.requireCleanWorkingDir",
