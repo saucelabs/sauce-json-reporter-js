@@ -8,7 +8,7 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "rm -r dist && tsc",
+    "build": "node scripts/rmdir.js dist && tsc",
     "lint": "npx eslint src/",
     "test": "jest",
     "release": "tsc && release-it --github.release",
