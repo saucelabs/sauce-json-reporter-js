@@ -1,0 +1,35 @@
+{
+  "name": "@saucelabs/sauce-json-reporter",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "rm -r dist && tsc",
+    "lint": "eslint src/",
+    "test": "jest",
+    "release": "tsc && release-it --github.release",
+    "release:ci": "tsc && npm run release -- --ci --no-git.requireCleanWorkingDir",
+    "release:patch": "npm run release -- patch",
+    "release:minor": "npm run release -- minor",
+    "release:major": "npm run release -- major"
+  },
+  "author": "<devx@saucelabs.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-typescript": "^7.16.0",
+    "@types/jest": "^27.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "babel-jest": "^27.3.1",
+    "eslint": "^8.2.0",
+    "jest": "^27.3.1",
+    "typescript": "^4.4.4",
+    "release-it": "^14.11.6"
+  }
+}
