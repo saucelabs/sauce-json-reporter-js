@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm ci --production
+          npm ci
 
       - name: Lint
         run: |
