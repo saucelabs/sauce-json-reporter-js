@@ -1,4 +1,4 @@
-import {Status, Suite, Test, TestRun} from "../src";
+import {Status, Suite, Test} from "../src";
 
 const FailedTest = new Test('failed', Status.Failed)
 const PassedTest = new Test('passed', Status.Passed)
