@@ -48,8 +48,12 @@ export class TestRun {
     }
 
     withSuite(name: string): Suite {
-        const suite = new Suite(name)
-        this.addSuite(suite)
+        let suite = this.suites.find(suite => suite.name === name)
+
+        if (!suite) {
+            suite = new Suite(name)
+            this.addSuite(suite)
+        }
 
         return suite
     }
@@ -114,8 +118,12 @@ export class Suite {
     }
 
     withSuite(name: string): Suite {
-        const suite = new Suite(name)
-        this.addSuite(suite)
+        let suite = this.suites.find(suite => suite.name === name)
+
+        if (!suite) {
+            suite = new Suite(name)
+            this.addSuite(suite)
+        }
 
         return suite
     }

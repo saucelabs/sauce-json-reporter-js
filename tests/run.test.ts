@@ -20,7 +20,7 @@ describe('computeStatus()', function () {
 
     it('should return status of Skipped when no suites exist', function () {
         expect(r.computeStatus()).toBe(Status.Skipped)
-    });
+    })
 
     it('should return status of Failed when at least one suite has Failed', function () {
         r.addSuite(PassedSuite)
@@ -38,11 +38,33 @@ describe('computeStatus()', function () {
         r.addSuite(SkippedSuite)
         expect(r.computeStatus()).toBe(Status.Skipped)
     })
-});
+})
+
+describe('withSuite()', function () {
+    let r = new TestRun()
+
+    beforeEach(
+        function () {
+            r = new TestRun()
+        }
+    )
+
+    it('should add a suite to the run', function () {
+        r.withSuite('my sweet suite')
+        expect(r.suites.length).toBe(1)
+    })
+
+    it('should only add one suite with the same name', function () {
+        const s1 = r.withSuite('my sweet suite')
+        const s2 = r.withSuite('my sweet suite')
+        expect(r.suites.length).toBe(1)
+        expect(s1).toBe(s2)
+    })
+})
 
 describe('stringify()', function () {
     it('renders correctly', function () {
-        let r = new TestRun()
+        const r = new TestRun()
         r.addSuite(PassedSuite)
         expect(r).toMatchSnapshot()
     })
