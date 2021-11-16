@@ -1,4 +1,4 @@
-import {Status, Suite, Test} from "../src";
+import {Status, Suite, Test, TestRun} from "../src";
 
 const FailedTest = new Test('failed', Status.Failed)
 const PassedTest = new Test('passed', Status.Passed)
@@ -15,7 +15,7 @@ describe('computeStatus()', function () {
 
     it('should return status of Skipped when no tests exist', function () {
         expect(s.computeStatus()).toBe(Status.Skipped)
-    });
+    })
 
     it('should return status of Failed when at least one test has Failed', function () {
         s.addTest(FailedTest)
@@ -33,4 +33,26 @@ describe('computeStatus()', function () {
         s.addTest(SkippedTest)
         expect(s.computeStatus()).toBe(Status.Skipped)
     })
-});
+})
+
+describe('withSuite()', function () {
+    let s: Suite
+
+    beforeEach(
+        function () {
+            s = new Suite('root')
+        }
+    )
+
+    it('should add a sub-suite', function () {
+        s.withSuite('my sweet suite')
+        expect(s.suites.length).toBe(1)
+    })
+
+    it('should only add one sub-suite with the same name', function () {
+        const s1 = s.withSuite('my sweet suite')
+        const s2 = s.withSuite('my sweet suite')
+        expect(s.suites.length).toBe(1)
+        expect(s1).toBe(s2)
+    })
+})
