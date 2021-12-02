@@ -3,6 +3,7 @@
 exports[`stringify() renders correctly 1`] = `
 TestRun {
   "attachments": Array [],
+  "metadata": undefined,
   "status": "skipped",
   "suites": Array [
     Suite {

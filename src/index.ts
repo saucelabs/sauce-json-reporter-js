@@ -23,11 +23,13 @@ export class TestRun {
     status: Status
     attachments: Attachment[]
     suites: Suite[]
+    metadata?: object
 
     constructor() {
         this.status = Status.Skipped
         this.attachments = new Array<Attachment>()
         this.suites = new Array<Suite>()
+        this.metadata = undefined
     }
 
     attach(attachment: Attachment) {
