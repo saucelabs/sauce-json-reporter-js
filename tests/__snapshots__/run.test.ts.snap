@@ -3,11 +3,12 @@
 exports[`stringify() renders correctly 1`] = `
 TestRun {
   "attachments": Array [],
+  "metadata": Object {},
   "status": "skipped",
   "suites": Array [
     Suite {
       "attachments": Array [],
-      "metadata": undefined,
+      "metadata": Object {},
       "name": "passed",
       "status": "passed",
       "suites": Array [],
@@ -15,7 +16,7 @@ TestRun {
         Test {
           "attachments": Array [],
           "duration": 123,
-          "metadata": undefined,
+          "metadata": Object {},
           "name": "yay",
           "output": undefined,
           "startTime": 2021-11-09T00:21:26.836Z,

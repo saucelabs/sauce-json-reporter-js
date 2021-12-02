@@ -23,11 +23,13 @@ export class TestRun {
     status: Status
     attachments: Attachment[]
     suites: Suite[]
+    metadata: object
 
     constructor() {
         this.status = Status.Skipped
         this.attachments = new Array<Attachment>()
         this.suites = new Array<Suite>()
+        this.metadata = {}
     }
 
     attach(attachment: Attachment) {
@@ -79,7 +81,7 @@ export class TestRun {
 export class Suite {
     name: string
     status: Status
-    metadata?: object
+    metadata: object
     suites: Suite[]
     attachments: Attachment[]
     tests: Test[]
@@ -87,7 +89,7 @@ export class Suite {
     constructor(name: string) {
         this.name = name
         this.status = Status.Skipped
-        this.metadata = undefined
+        this.metadata = {}
         this.suites = new Array<Suite>()
         this.attachments = new Array<Attachment>()
         this.tests = new Array<Test>()
@@ -134,7 +136,7 @@ export class Suite {
         duration = 0,
         output?: string,
         startTime: Date = new Date(),
-        metadata?: object,
+        metadata: object = {},
         attachments: Attachment[] = new Array<Attachment>()
     ): Test {
         const test = new Test(name, status, duration, output, startTime, attachments, metadata)
@@ -154,7 +156,7 @@ export class Test {
     output?: string
     startTime: Date
     attachments?: Attachment[]
-    metadata?: object
+    metadata: object
 
     constructor(
         name: string,
@@ -163,7 +165,7 @@ export class Test {
         output?: string,
         startTime: Date = new Date(),
         attachments: Attachment[] = new Array<Attachment>(),
-        metadata?: object,
+        metadata: object = {},
     ) {
         this.name = name
         this.status = status
