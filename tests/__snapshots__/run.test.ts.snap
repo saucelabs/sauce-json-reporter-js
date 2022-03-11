@@ -15,6 +15,7 @@ TestRun {
       "tests": Array [
         Test {
           "attachments": Array [],
+          "code": undefined,
           "duration": 123,
           "metadata": Object {},
           "name": "yay",
