@@ -1,5 +1,7 @@
 import * as fs from "fs"
 
+type HasKeyOf<T> = {[P in keyof T]?: T[P]};
+
 export enum Status {
     Passed = "passed",
     Skipped = "skipped",
@@ -132,7 +134,7 @@ export class Suite {
 
     withTest(
         name: string,
-        status: Status = Status.Skipped,
+        status: Status | HasKeyOf<Test> = Status.Skipped,
         duration = 0,
         output?: string,
         startTime: Date = new Date(),
@@ -140,9 +142,13 @@ export class Suite {
         attachments: Attachment[] = new Array<Attachment>(),
         code?: string,
     ): Test {
+        if (typeof status === "object") {
+            const test = new Test(name, status.status, status.duration, status.output, status.startTime, status.attachments, status.metadata, status.code)
+            this.addTest(test)
+            return test
+        }
         const test = new Test(name, status, duration, output, startTime, attachments, metadata, code)
         this.addTest(test)
-
         return test
     }
 }
