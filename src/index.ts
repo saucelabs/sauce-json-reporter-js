@@ -140,7 +140,7 @@ export class Suite {
         startTime: Date = new Date(),
         metadata: object = {},
         attachments: Attachment[] = new Array<Attachment>(),
-        code?: string,
+        code?: TestCode,
     ): Test {
         if (typeof status === "object") {
             const test = new Test(name, status.status, status.duration, status.output, status.startTime, status.attachments, status.metadata, status.code)
@@ -164,7 +164,7 @@ export class Test {
     startTime: Date
     attachments?: Attachment[]
     metadata: object
-    code?: string
+    code?: TestCode
 
     constructor(
         name: string,
@@ -174,7 +174,7 @@ export class Test {
         startTime: Date = new Date(),
         attachments: Attachment[] = new Array<Attachment>(),
         metadata: object = {},
-        code?: string,
+        code?: TestCode,
     ) {
         this.name = name
         this.status = status
@@ -188,6 +188,17 @@ export class Test {
 
     attach(attachment: Attachment) {
         this.attachments?.push(attachment)
+    }
+}
+
+/**
+ * TestCode represents the code associated to a test.
+ */
+ export class TestCode {
+    lines: string[]
+
+    constructor(lines: string[]) {
+        this.lines = lines
     }
 }
 
