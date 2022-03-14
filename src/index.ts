@@ -134,20 +134,9 @@ export class Suite {
 
     withTest(
         name: string,
-        status: Status | HasKeyOf<Test> = Status.Skipped,
-        duration = 0,
-        output?: string,
-        startTime: Date = new Date(),
-        metadata: object = {},
-        attachments: Attachment[] = new Array<Attachment>(),
-        code?: TestCode,
+        options: HasKeyOf<Test> = {},
     ): Test {
-        if (typeof status === "object") {
-            const test = new Test(name, status.status, status.duration, status.output, status.startTime, status.attachments, status.metadata, status.code)
-            this.addTest(test)
-            return test
-        }
-        const test = new Test(name, status, duration, output, startTime, attachments, metadata, code)
+        const test = new Test(name, options.status, options.duration, options.output, options.startTime, options.attachments, options.metadata, options.code)
         this.addTest(test)
         return test
     }
