@@ -9,8 +9,14 @@ const { TestRun, Status } = require('@saucelabs/sauce-json-reporter');
 let r = new TestRun()
 const s1 = r.withSuite('somegroup')
 const s2 = s1.withSuite('somefile.test.js')
-s2.withTest('yay', Status.Passed, 123)
-s2.withTest('nay', Status.Failed, 123)
+s2.withTest('yay', {
+  status: Status.Passed,
+  duration: 123,
+})
+s2.withTest('nay', {
+  status: Status.Failed,
+  duration: 123,
+})
 
 r.stringify() // returns a JSON string representing the entire test run
 // or

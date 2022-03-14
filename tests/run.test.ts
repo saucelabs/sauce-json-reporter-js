@@ -1,13 +1,25 @@
 import {TestRun, Status, Suite} from "../src";
 
 const FailedSuite = new Suite('failed')
-FailedSuite.withTest('uhoh', Status.Failed, 123, undefined, new Date('2021-11-09T00:21:26.836Z'))
+FailedSuite.withTest('uhoh', {
+    status: Status.Failed,
+    duration: 123,
+    startTime: new Date('2021-11-09T00:21:26.836Z'),
+})
 
 const PassedSuite = new Suite('passed')
-PassedSuite.withTest('yay', Status.Passed, 123, undefined, new Date('2021-11-09T00:21:26.836Z'))
+PassedSuite.withTest('yay', {
+    status: Status.Passed,
+    duration: 123,
+    startTime: new Date('2021-11-09T00:21:26.836Z'),
+})
 
 const SkippedSuite = new Suite('skipped')
-SkippedSuite.withTest('nah', Status.Skipped, 123, undefined, new Date('2021-11-09T00:21:26.836Z'))
+SkippedSuite.withTest('nah', {
+    status: Status.Skipped,
+    duration: 123,
+    startTime: new Date('2021-11-09T00:21:26.836Z'),
+})
 
 describe('computeStatus()', function () {
     let r = new TestRun()

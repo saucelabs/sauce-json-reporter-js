@@ -1,5 +1,7 @@
 import * as fs from "fs"
 
+type HasKeyOf<T> = {[P in keyof T]?: T[P]};
+
 export enum Status {
     Passed = "passed",
     Skipped = "skipped",
@@ -132,16 +134,10 @@ export class Suite {
 
     withTest(
         name: string,
-        status: Status = Status.Skipped,
-        duration = 0,
-        output?: string,
-        startTime: Date = new Date(),
-        metadata: object = {},
-        attachments: Attachment[] = new Array<Attachment>()
+        options: HasKeyOf<Test> = {},
     ): Test {
-        const test = new Test(name, status, duration, output, startTime, attachments, metadata)
+        const test = new Test(name, options.status, options.duration, options.output, options.startTime, options.attachments, options.metadata, options.code)
         this.addTest(test)
-
         return test
     }
 }
@@ -157,6 +153,7 @@ export class Test {
     startTime: Date
     attachments?: Attachment[]
     metadata: object
+    code?: TestCode
 
     constructor(
         name: string,
@@ -166,6 +163,7 @@ export class Test {
         startTime: Date = new Date(),
         attachments: Attachment[] = new Array<Attachment>(),
         metadata: object = {},
+        code?: TestCode,
     ) {
         this.name = name
         this.status = status
@@ -174,10 +172,22 @@ export class Test {
         this.metadata = metadata
         this.output = output
         this.attachments = attachments
+        this.code = code
     }
 
     attach(attachment: Attachment) {
         this.attachments?.push(attachment)
+    }
+}
+
+/**
+ * TestCode represents the code associated to a test.
+ */
+ export class TestCode {
+    lines: string[]
+
+    constructor(lines: string[]) {
+        this.lines = lines
     }
 }
 
