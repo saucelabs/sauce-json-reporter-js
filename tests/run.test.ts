@@ -1,4 +1,4 @@
-import {TestRun, Status, Suite} from "../src";
+import {TestRun, Status, Suite} from "../src"
 
 const FailedSuite = new Suite('failed')
 FailedSuite.withTest('uhoh', {
@@ -78,6 +78,6 @@ describe('stringify()', function () {
     it('renders correctly', function () {
         const r = new TestRun()
         r.addSuite(PassedSuite)
-        expect(r).toMatchSnapshot()
+        expect(r.stringify()).toMatchSnapshot()
     })
 })
