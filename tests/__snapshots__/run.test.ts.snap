@@ -1,30 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`stringify() renders correctly 1`] = `
-TestRun {
-  "attachments": Array [],
-  "metadata": Object {},
-  "status": "skipped",
-  "suites": Array [
-    Suite {
-      "attachments": Array [],
-      "metadata": Object {},
-      "name": "passed",
-      "status": "passed",
-      "suites": Array [],
-      "tests": Array [
-        Test {
-          "attachments": Array [],
-          "code": undefined,
-          "duration": 123,
-          "metadata": Object {},
-          "name": "yay",
-          "output": undefined,
-          "startTime": 2021-11-09T00:21:26.836Z,
-          "status": "passed",
-        },
-      ],
-    },
+"{
+  \\"status\\": \\"passed\\",
+  \\"attachments\\": [],
+  \\"suites\\": [
+    {
+      \\"name\\": \\"passed\\",
+      \\"status\\": \\"passed\\",
+      \\"metadata\\": {},
+      \\"suites\\": [],
+      \\"attachments\\": [],
+      \\"tests\\": [
+        {
+          \\"name\\": \\"yay\\",
+          \\"status\\": \\"passed\\",
+          \\"startTime\\": \\"2021-11-09T00:21:26.836Z\\",
+          \\"duration\\": 123,
+          \\"metadata\\": {},
+          \\"attachments\\": []
+        }
+      ]
+    }
   ],
-}
+  \\"metadata\\": {}
+}"
 `;

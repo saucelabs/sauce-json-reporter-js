@@ -136,7 +136,7 @@ export class Suite {
         name: string,
         options: HasKeyOf<Test> = {},
     ): Test {
-        const test = new Test(name, options.status, options.duration, options.output, options.startTime, options.attachments, options.metadata, options.code)
+        const test = new Test(name, options.status, options.duration, options.output, options.startTime, options.attachments, options.metadata, options.code, options.videoTimestamp)
         this.addTest(test)
         return test
     }
@@ -154,6 +154,7 @@ export class Test {
     attachments?: Attachment[]
     metadata: object
     code?: TestCode
+    videoTimestamp?: number
 
     constructor(
         name: string,
@@ -164,6 +165,7 @@ export class Test {
         attachments: Attachment[] = new Array<Attachment>(),
         metadata: object = {},
         code?: TestCode,
+        videoTimestamp?: number
     ) {
         this.name = name
         this.status = status
@@ -173,6 +175,7 @@ export class Test {
         this.output = output
         this.attachments = attachments
         this.code = code
+        this.videoTimestamp = videoTimestamp
     }
 
     attach(attachment: Attachment) {
@@ -183,7 +186,7 @@ export class Test {
 /**
  * TestCode represents the code associated to a test.
  */
- export class TestCode {
+export class TestCode {
     lines: string[]
 
     constructor(lines: string[]) {
