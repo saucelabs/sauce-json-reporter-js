@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://saucelabs.com/schema/v1/sauce-json-reporter.schema.json",
+  "title": "Sauce Labs Test Report",
+  "description": "Test report file.",
+  "type": "object",
+  "$defs": {
+    "status": {
+      "enum": [
+        "passed",
+        "skipped",
+        "failed"
+      ]
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Descriptive name of the attachment."
+          },
+          "path": {
+            "type": "string",
+            "description": "Actual filename of the attachment in storage.",
+            "examples": [
+              "video.mp4"
+            ]
+          },
+          "contentType": {
+            "type": "string",
+            "description": "MIME type, aka media type, aka content type.",
+            "examples": [
+              "image/png"
+            ]
+          }
+        },
+        "required": [
+          "path",
+          "contentType"
+        ]
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Arbitrary user provided data."
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/status"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Duration of the test in seconds."
+          },
+          "output": {
+            "type": "string",
+            "description": "Any kind (errors, warnings etc.) of informational messages that occur during a test run."
+          },
+          "startTime": {
+            "type": "string",
+            "examples": [
+              "2022-10-14T19:40:13.131Z"
+            ]
+          },
+          "attachments": {
+            "$ref": "#/$defs/attachments"
+          },
+          "metadata": {
+            "$ref": "#/$defs/metadata"
+          },
+          "code": {
+            "type": "object",
+            "description": "The code responsible for the test.",
+            "properties": {
+              "lines": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "videoTimestamp": {
+            "type": "integer",
+            "description": "Point in time (seconds) the test occurred in the video. Refers to a global video file that captured multiple tests."
+          }
+        },
+        "required": [
+          "name",
+          "status",
+          "duration",
+          "startTime",
+          "attachments",
+          "metadata"
+        ]
+      }
+    },
+    "suites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/status"
+          },
+          "metadata": {
+            "$ref": "#/$defs/metadata"
+          },
+          "suites": {
+            "$ref": "#/$defs/suites"
+          },
+          "attachments": {
+            "$ref": "#/$defs/attachments"
+          },
+          "tests": {
+            "$ref": "#/$defs/tests"
+          }
+        },
+        "required": [
+          "name",
+          "status",
+          "metadata",
+          "suites",
+          "attachments",
+          "tests"
+        ]
+      }
+    }
+  },
+  "properties": {
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "attachments": {
+      "$ref": "#/$defs/attachments"
+    },
+    "suites": {
+      "$ref": "#/$defs/suites"
+    }
+  },
+  "required": [
+    "status",
+    "attachments",
+    "suites"
+  ]
+}
