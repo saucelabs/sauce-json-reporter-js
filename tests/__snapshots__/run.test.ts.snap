@@ -2,27 +2,27 @@
 
 exports[`stringify() renders correctly 1`] = `
 "{
-  \\"status\\": \\"passed\\",
-  \\"attachments\\": [],
-  \\"suites\\": [
+  "status": "passed",
+  "attachments": [],
+  "suites": [
     {
-      \\"name\\": \\"passed\\",
-      \\"status\\": \\"passed\\",
-      \\"metadata\\": {},
-      \\"suites\\": [],
-      \\"attachments\\": [],
-      \\"tests\\": [
+      "name": "passed",
+      "status": "passed",
+      "metadata": {},
+      "suites": [],
+      "attachments": [],
+      "tests": [
         {
-          \\"name\\": \\"yay\\",
-          \\"status\\": \\"passed\\",
-          \\"startTime\\": \\"2021-11-09T00:21:26.836Z\\",
-          \\"duration\\": 123,
-          \\"metadata\\": {},
-          \\"attachments\\": []
+          "name": "yay",
+          "status": "passed",
+          "duration": 123,
+          "startTime": "2021-11-09T00:21:26.836Z",
+          "attachments": [],
+          "metadata": {}
         }
       ]
     }
   ],
-  \\"metadata\\": {}
+  "metadata": {}
 }"
 `;
