@@ -29,7 +29,7 @@ export class JUnitTestCase {
     _videoTimestamp?: number
     _startTime?: string
     failure?: string
-    attachments?: Attachment[]
+    attachment?: Attachment[]
     properties?: object
     code?: TestCode
 
@@ -50,7 +50,7 @@ export class JUnitTestCase {
        this._videoTimestamp = videoTimestamp
        this._startTime = startTime
        this.failure = failure
-       this.attachments = attachments
+       this.attachment = attachments
        this.properties = properties
        this.code = code
     }
@@ -62,7 +62,7 @@ export class JUnitTestCase {
 export class JUnitTestSuite {
     _name: string
     _status: Status
-    attachments: Attachment[]
+    attachment: Attachment[]
     properties: object
     testcase: JUnitTestCase[]
 
@@ -75,7 +75,7 @@ export class JUnitTestSuite {
     ) {
         this._name = name
         this._status = status
-        this.attachments = attachments
+        this.attachment = attachments
         this.properties = properties
         this.testcase = testcases
     }
@@ -87,7 +87,7 @@ export class JUnitTestSuite {
 export class JUnitReport {
     testsuite: JUnitTestSuite[]
     _status: Status
-    attachments: Attachment[]
+    attachment: Attachment[]
     properties: object
 
     constructor(
@@ -98,7 +98,7 @@ export class JUnitReport {
     ) {
         this.testsuite = testsuites
         this._status = status
-        this.attachments = attachments
+        this.attachment = attachments
         this.properties = properties
     }
 }
@@ -323,6 +323,7 @@ export class Test {
             this.status,
             this.duration,
             this.videoTimestamp,
+            // startTime should be a string in this case. Otherwise, XMLBuilder will not recognize the attribute name prefix.
             this.startTime.toISOString(),
             this.output,
             this.attachments,

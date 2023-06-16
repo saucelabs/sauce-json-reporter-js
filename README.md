@@ -92,22 +92,23 @@ The resulting JUnit file of the above example is:
 ```
 <testsuites status="failed">
   <testsuite name="somegroup" status="failed">
-    <attachments>screenshot1.png</attachments>
+    <attachment>screenshot1.png</attachment>
     <properties></properties>
   </testsuite>
   <testsuite name="somefile.test.js" status="failed">
     <properties></properties>
-    <testcase name="yay" status="passed" duration="123" startTime="2023-06-16T20:13:01.729Z">
-      <attachments>video.mp4</attachments>
+    <testcase name="yay" status="passed" duration="123" startTime="2023-06-16T20:17:04.759Z">
+      <attachment>video.mp4</attachment>
+      <attachment>screenshot2.png</attachment>
       <properties></properties>
     </testcase>
-    <testcase name="nay" status="failed" duration="123" startTime="2023-06-16T20:13:01.729Z">
+    <testcase name="nay" status="failed" duration="123" startTime="2023-06-16T20:17:04.759Z">
       <failure>test failed</failure>
-      <attachments>video.mp4</attachments>
+      <attachment>video.mp4</attachment>
       <properties></properties>
     </testcase>
   </testsuite>
-  <attachments>screenshot.png</attachments>
+  <attachment>screenshot.png</attachment>
   <properties></properties>
 </testsuites>
 ```
