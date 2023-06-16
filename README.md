@@ -115,41 +115,26 @@ The resulting JUnit file of the above example is:
   <testsuite name="somegroup" status="failed">
     <properties>
       <property name="attachment" value="screenshot1.png">./screenshot1.png</property>
-      <property name="metadata">
-        <metadata/>
-      </property>
     </properties>
   </testsuite>
   <testsuite name="somefile.test.js" status="failed">
-    <properties>
-      <property name="metadata">
-        <metadata/>
-      </property>
-    </properties>
-    <testcase name="yay" status="passed" duration="123" startTime="2023-06-16T22:16:10.595Z">
+    <properties/>
+    <testcase name="yay" status="passed" duration="123" startTime="2023-06-16T23:51:37.913Z">
       <properties>
         <property name="attachment" value="video.mp4">./video.mp4</property>
         <property name="attachment" value="screenshot2.png">./screenshot2.png</property>
-        <property name="metadata">
-          <metadata/>
-        </property>
       </properties>
     </testcase>
-    <testcase name="nay" status="failed" duration="123" startTime="2023-06-16T22:16:10.595Z">
+    <testcase name="nay" status="failed" duration="123" startTime="2023-06-16T23:51:37.913Z">
       <properties>
         <property name="attachment" value="video.mp4">./video.mp4</property>
-        <property name="metadata">
-          <metadata/>
-        </property>
       </properties>
       <failure>test failed</failure>
     </testcase>
   </testsuite>
   <properties>
     <property name="attachment" value="screenshot.png">./screenshot.png</property>
-    <property name="metadata">
-      <metadata/>
-    </property>
+    <property name="id" value="my_id"/>
   </properties>
 </testsuites>
 ```

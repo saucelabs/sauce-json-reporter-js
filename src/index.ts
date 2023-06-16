@@ -109,11 +109,13 @@ function toProperty(
             '#text': attachment.path,
         })
     })
-    properties.push({
-        _name: 'metadata',
-        metadata,
-    })
-    return properties
+    Object.keys(metadata).forEach(key => {
+        properties.push({
+            _name: key,
+            _value: (metadata as any)[key],
+        })
+    });
+   return properties
 }
 
 /**
