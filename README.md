@@ -91,23 +91,23 @@ The resulting JSON of the above example is:
 The resulting JUnit file of the above example is:
 ```
 <testsuites status="failed">
-  <attachments>screenshot.png</attachments>
   <testsuite name="somegroup" status="failed">
-    <properties></properties>
     <attachments>screenshot1.png</attachments>
+    <properties></properties>
   </testsuite>
   <testsuite name="somefile.test.js" status="failed">
     <properties></properties>
-    <testcases name="yay" status="passed" duration="123" startTime="2023-06-16T17:42:39.568Z">
+    <testcase name="yay" status="passed" duration="123" startTime="2023-06-16T20:13:01.729Z">
       <attachments>video.mp4</attachments>
       <properties></properties>
-    </testcases>
-    <testcases name="nay" status="failed" duration="123" startTime="2023-06-16T17:42:39.568Z">
+    </testcase>
+    <testcase name="nay" status="failed" duration="123" startTime="2023-06-16T20:13:01.729Z">
       <failure>test failed</failure>
       <attachments>video.mp4</attachments>
       <properties></properties>
-    </testcases>
+    </testcase>
   </testsuite>
+  <attachments>screenshot.png</attachments>
   <properties></properties>
 </testsuites>
 ```

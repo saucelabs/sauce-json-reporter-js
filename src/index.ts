@@ -20,6 +20,90 @@ export interface Attachment {
 }
 
 /**
+ * JUnitTestCase represents a single, individual testcase in JUnit format.
+ */
+export class JUnitTestCase {
+    _name: string
+    _status: Status
+    _duration: number
+    _videoTimestamp?: number
+    _startTime?: string
+    failure?: string
+    attachments?: Attachment[]
+    properties?: object
+    code?: TestCode
+
+    constructor(
+        name: string,
+        status: Status,
+        duration: number,
+        videoTimestamp?: number,
+        startTime?: string,
+        failure?: string,
+        attachments?: Attachment[],
+        properties?: object,
+        code?: TestCode,
+    ) {
+       this._name = name 
+       this._status = status
+       this._duration = duration
+       this._videoTimestamp = videoTimestamp
+       this._startTime = startTime
+       this.failure = failure
+       this.attachments = attachments
+       this.properties = properties
+       this.code = code
+    }
+}
+
+/**
+ * JUnitTestSuite represents a testsuite in JUnit format.
+ */
+export class JUnitTestSuite {
+    _name: string
+    _status: Status
+    attachments: Attachment[]
+    properties: object
+    testcase: JUnitTestCase[]
+
+    constructor(
+        name: string,
+        status: Status,    
+        attachments: Attachment[],
+        properties: object,
+        testcases: JUnitTestCase[],
+    ) {
+        this._name = name
+        this._status = status
+        this.attachments = attachments
+        this.properties = properties
+        this.testcase = testcases
+    }
+}
+
+/**
+ * JUnitReport represents a JUnit report.
+ */
+export class JUnitReport {
+    testsuite: JUnitTestSuite[]
+    _status: Status
+    attachments: Attachment[]
+    properties: object
+
+    constructor(
+        testsuites: JUnitTestSuite[],
+        status: Status,
+        attachments: Attachment[],
+        properties: object,
+    ) {
+        this.testsuite = testsuites
+        this._status = status
+        this.attachments = attachments
+        this.properties = properties
+    }
+}
+
+/**
  * TestRun represents the entire test run.
  */
 export class TestRun {
@@ -75,18 +159,16 @@ export class TestRun {
             this.computeStatus()
         }
 
-        const suites: object[] = [];
+        const testsuites: JUnitTestSuite[] = [];
         this.suites.forEach(suite => {
-            suites.push(...suite.toJUnitObj())
+            testsuites.push(...suite.toJUnitObj())
         })
-        return {
-            testsuites: {
-                _status: this.status,
-                attachments: this.attachments,
-                testsuite: suites,
-                properties: this.metadata,
-            }
-        }
+        return new JUnitReport(
+            testsuites,
+            this.status,
+            this.attachments,
+            this.metadata,
+        )
     }
 
     toJUnitFile(filepath: string) {
@@ -96,7 +178,7 @@ export class TestRun {
             format: true
         }
         const builder = new XMLBuilder(options)
-        const xml = builder.build(this.toJUnitObj())
+        const xml = builder.build({ testsuites: this.toJUnitObj() })
         fs.writeFileSync(filepath, xml) 
     } 
 
@@ -172,20 +254,20 @@ export class Suite {
         return test
     }
 
-    toJUnitObj(): object[] {
-        const tests: object[] = []
+    toJUnitObj(): JUnitTestSuite[] {
+        const testcases: JUnitTestCase[] = []
         this.tests.forEach(test => {
-            tests.push(test.toJUnitObj())
+            testcases.push(test.toJUnitObj())
         })
 
-        const suites: object[] = [
-            {
-                _name: this.name,
-                _status: this.status,
-                properties: this.metadata,
-                attachments: this.attachments,
-                testcases: tests,
-            }
+        const suites: JUnitTestSuite[] = [
+            new JUnitTestSuite(
+                this.name,
+                this.status,
+                this.attachments,
+                this.metadata,
+                testcases,
+            )
         ]
         this.suites.forEach(suite => {
             suites.push(...suite.toJUnitObj())
@@ -235,23 +317,18 @@ export class Test {
         this.attachments?.push(attachment)
     }
 
-    toJUnitObj(): object {
-        let failure;
-        if (this.status === Status.Failed && this.output) {
-            failure = this.output
-        }
-        return {
-            _name: this.name,
-            _status: this.status,
-            _duration: this.duration,
-            _videoTimestamp: this.videoTimestamp,
-            // startTime should be a string in this case. Otherwise, XMLBuilder will not recognize the attribute name prefix.
-            _startTime: this.startTime.toISOString(),
-            failure,
-            attachments: this.attachments,
-            properties: this.metadata,
-            code: this.code,
-        }
+    toJUnitObj(): JUnitTestCase {
+        return new JUnitTestCase(
+            this.name,
+            this.status,
+            this.duration,
+            this.videoTimestamp,
+            this.startTime.toISOString(),
+            this.output,
+            this.attachments,
+            this.metadata,
+            this.code
+        )
     }
 }
 
