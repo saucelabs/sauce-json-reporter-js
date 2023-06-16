@@ -26,10 +26,9 @@ export class JUnitTestCase {
     _name: string
     _status: Status
     _duration: number
+    _startTime: string
     _videoTimestamp?: number
-    _startTime?: string
     properties: object
-
     failure?: string
     code?: TestCode
 
@@ -38,16 +37,16 @@ export class JUnitTestCase {
         status: Status,
         duration: number,
         properties: object[],
+        startTime: string,
         videoTimestamp?: number,
-        startTime?: string,
         failure?: string,
         code?: TestCode,
     ) {
         this._name = name 
         this._status = status
         this._duration = duration
-        this._videoTimestamp = videoTimestamp
         this._startTime = startTime
+        this._videoTimestamp = videoTimestamp
         this.failure = failure
         this.properties = { property: properties }
         this.code = code
@@ -80,8 +79,8 @@ export class JUnitTestSuite {
  * JUnitReport represents a JUnit report.
  */
 export class JUnitReport {
-    testsuite: JUnitTestSuite[] // to correctly build an array using XMLBuilder, testsuite should be kept in the singular form.
     _status: Status
+    testsuite: JUnitTestSuite[] // to correctly build an array using XMLBuilder, testsuite should be kept in the singular form.
     properties: object
 
     constructor(
@@ -337,9 +336,9 @@ export class Test {
             this.status,
             this.duration,
             toProperty(this.attachments || [], this.metadata),
-            this.videoTimestamp,
             // startTime should be a string in this case. Otherwise, XMLBuilder will not recognize the attribute name prefix.
             this.startTime.toISOString(),
+            this.videoTimestamp,
             this.output,
             this.code
         )
