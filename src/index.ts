@@ -1,4 +1,5 @@
 import * as fs from "fs"
+import { XMLBuilder } from 'fast-xml-parser'
 
 type HasKeyOf<T> = {[P in keyof T]?: T[P]};
 
@@ -16,6 +17,28 @@ export interface Attachment {
     name: string
     path: string
     contentType: string
+}
+
+/**
+ * JUnitTestRun represents the entire test run in JUnit format.
+ */
+export class JUnitTestRun {
+    _status: Status
+    attachments: Attachment[]
+    testsuites: JUnitSuite[]
+    metadata: object
+
+    constructor(
+        status: Status,
+        attachments: Attachment[],
+        suites: JUnitSuite[],
+        metadata: object,
+    ) {
+        this._status = status
+        this.attachments = attachments
+        this.testsuites = suites
+        this.metadata = metadata
+    } 
 }
 
 /**
@@ -69,11 +92,66 @@ export class TestRun {
         return JSON.stringify(this, null, 2)
     }
 
+    toJUnitObj(): JUnitTestRun {
+        const suites: JUnitSuite[] = [];
+        this.suites.forEach(suite => {
+            suites.push(suite.toJUnitObj())
+        })
+        return new JUnitTestRun(
+            this.status,
+            this.attachments,
+            suites,
+            this.metadata,
+        )
+    }
+
+    toJUnitFile(filepath: string, computeStatus = true) {
+        if (computeStatus) {
+            this.computeStatus()
+        }
+        const options = {
+            ignoreAttributes: false,
+            attributeNamePrefix: "_",
+            format: true
+        }
+        const builder = new XMLBuilder(options)
+        const xml = builder.build({ testsuites: this.toJUnitObj() })
+        fs.writeFileSync(filepath, xml) 
+    } 
+
     toFile(filepath: string, computeStatus = true) {
         if (computeStatus) {
             this.computeStatus()
         }
         fs.writeFileSync(filepath, this.stringify())
+    }
+}
+
+/**
+ * JUnitSuite represents a group of JUnitTests. It may be nested as part of another JUnitSuite.
+ */
+export class JUnitSuite {
+    _name: string
+    _status: Status
+    metadata: object
+    testsuites: JUnitSuite[]
+    attachments: Attachment[]
+    testcase: JUnitTest[]
+
+    constructor(
+        name: string,
+        status: Status,
+        metadata: object,
+        suites: JUnitSuite[],
+        attachments: Attachment[],
+        tests: JUnitTest[],
+        ) {
+        this._name = name
+        this._status = status
+        this.metadata = metadata
+        this.testsuites = suites
+        this.attachments = attachments
+        this.testcase = tests
     }
 }
 
@@ -140,6 +218,64 @@ export class Suite {
         this.addTest(test)
         return test
     }
+
+    toJUnitObj(): JUnitSuite {
+        const suites: JUnitSuite[] = []
+        this.suites.forEach(suite => {
+            suites.push(suite.toJUnitObj())
+        })
+        const tests: JUnitTest[] = []
+        this.tests.forEach(test => {
+            tests.push(test.toJUnitObj())
+        })
+
+        return new JUnitSuite(
+            this.name,
+            this.status,
+            this.metadata,
+            suites,
+            this.attachments,
+            tests,
+        )
+    }
+}
+
+/**
+ * JUnitTest represents a single, individual test in JUnit format.
+ */
+class JUnitTest {
+    _name: string
+    _status: Status
+    _duration: number
+    _videoTimestamp?: number 
+    _startTime: string
+
+    output?: string
+    attachments?: Attachment[]
+    metadata: object
+    code?: TestCode
+
+    constructor(
+        name: string,
+        status: Status = Status.Skipped,
+        duration = 0,
+        output?: string,
+        startTime: Date = new Date(),
+        attachments: Attachment[] = new Array<Attachment>(),
+        metadata: object = {},
+        code?: TestCode,
+        videoTimestamp?: number
+    ) {
+        this._name = name
+        this._status = status
+        this._startTime = startTime.toISOString()
+        this._duration = duration
+        this.metadata = metadata
+        this.output = output
+        this.attachments = attachments
+        this.code = code
+        this._videoTimestamp = videoTimestamp
+    }
 }
 
 /**
@@ -180,6 +316,21 @@ export class Test {
 
     attach(attachment: Attachment) {
         this.attachments?.push(attachment)
+    }
+
+    toJUnitObj(): JUnitTest {
+        const test: JUnitTest = new JUnitTest(
+            this.name,
+            this.status,
+            this.duration,
+            this.output,
+            this.startTime,
+            this.attachments,
+            this.metadata,
+            this.code,
+            this.videoTimestamp,
+        )
+        return test
     }
 }
 

@@ -24,6 +24,8 @@ s2.withTest('nay', {
 r.stringify() // returns a JSON string representing the entire test run
 // or
 r.toFile('myreport.json') // writes the JSON to a file instead
+// or
+r.toJUnitFile('my_junit_report.xml') // converts and writes the result to JUnit file
 ```
 
 The resulting JSON of the above example is:
@@ -65,4 +67,23 @@ The resulting JSON of the above example is:
     }
   ]
 }
+```
+
+The resulting JUnit file of the above example is:
+```
+<testsuites status="failed">
+  <testsuites name="somegroup" status="failed">
+    <metadata></metadata>
+    <testsuites name="somefile.test.js" status="failed">
+      <metadata></metadata>
+      <testcase name="yay" status="passed" duration="123" startTime="2023-06-16T00:54:01.600Z">
+        <metadata></metadata>
+      </testcase>
+      <testcase name="nay" status="failed" duration="123" startTime="2023-06-16T00:54:01.600Z">
+        <metadata></metadata>
+      </testcase>
+    </testsuites>
+  </testsuites>
+  <metadata></metadata>
+</testsuites>
 ```
