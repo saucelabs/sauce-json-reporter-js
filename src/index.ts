@@ -80,10 +80,12 @@ export class TestRun {
             suites.push(suite.toJUnitObj())
         })
         return {
-            _status: this.status,
-            attachments: this.attachments,
-            testsuites: suites,
-            metadata: this.metadata,
+            testsuites: {
+                _status: this.status,
+                attachments: this.attachments,
+                testsuites: suites,
+                metadata: this.metadata,
+            }
         }
     }
 
@@ -94,7 +96,7 @@ export class TestRun {
             format: true
         }
         const builder = new XMLBuilder(options)
-        const xml = builder.build({ testsuites: this.toJUnitObj() })
+        const xml = builder.build(this.toJUnitObj())
         fs.writeFileSync(filepath, xml) 
     } 
 
