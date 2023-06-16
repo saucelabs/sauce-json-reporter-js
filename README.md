@@ -25,7 +25,7 @@ r.stringify() // returns a JSON string representing the entire test run
 // or
 r.toFile('myreport.json') // writes the JSON to a file instead
 // or
-r.toJUnitFile('my_junit_report.xml') // converts and writes the result to JUnit file
+r.toJUnitFile('my_junit_report.xml') // converts and writes the result to a JUnit file
 ```
 
 The resulting JSON of the above example is:
