@@ -77,14 +77,14 @@ export class TestRun {
 
         const suites: object[] = [];
         this.suites.forEach(suite => {
-            suites.push(suite.toJUnitObj())
+            suites.push(...suite.toJUnitObj())
         })
         return {
             testsuites: {
                 _status: this.status,
                 attachments: this.attachments,
-                testsuites: suites,
-                metadata: this.metadata,
+                testsuite: suites,
+                properties: this.metadata,
             }
         }
     }
@@ -172,24 +172,26 @@ export class Suite {
         return test
     }
 
-    toJUnitObj(): object {
-        const suites: object[] = []
-        this.suites.forEach(suite => {
-            suites.push(suite.toJUnitObj())
-        })
+    toJUnitObj(): object[] {
         const tests: object[] = []
         this.tests.forEach(test => {
             tests.push(test.toJUnitObj())
         })
 
-        return {
-            _name: this.name,
-            _status: this.status,
-            metadata: this.metadata,
-            testsuites: suites,
-            attachments: this.attachments,
-            testcases: tests,
-        }
+        const suites: object[] = [
+            {
+                _name: this.name,
+                _status: this.status,
+                properties: this.metadata,
+                attachments: this.attachments,
+                testcases: tests,
+            }
+        ]
+        this.suites.forEach(suite => {
+            suites.push(...suite.toJUnitObj())
+        })
+
+        return suites
     }
 }
 
@@ -234,6 +236,10 @@ export class Test {
     }
 
     toJUnitObj(): object {
+        let failure;
+        if (this.status === Status.Failed && this.output) {
+            failure = this.output
+        }
         return {
             _name: this.name,
             _status: this.status,
@@ -241,9 +247,9 @@ export class Test {
             _videoTimestamp: this.videoTimestamp,
             // startTime should be a string in this case. Otherwise, XMLBuilder will not recognize the attribute name prefix.
             _startTime: this.startTime.toISOString(),
-            output: this.output,
+            failure,
             attachments: this.attachments,
-            metadata: this.metadata,
+            properties: this.metadata,
             code: this.code,
         }
     }

@@ -10,15 +10,20 @@ A [JSON schema](api/schema.json) describing the report is also available.
 const {TestRun, Status} = require('@saucelabs/sauce-json-reporter');
 
 let r = new TestRun()
+r.attach('screenshot.png')
 const s1 = r.withSuite('somegroup')
 const s2 = s1.withSuite('somefile.test.js')
+s1.attach('screenshot1.png')
 s2.withTest('yay', {
   status: Status.Passed,
   duration: 123,
+  attachments: ['video.mp4'],
 })
 s2.withTest('nay', {
   status: Status.Failed,
+  output: 'test failed',
   duration: 123,
+  attachments: ['video.mp4'],
 })
 
 r.stringify() // returns a JSON string representing the entire test run
@@ -33,57 +38,76 @@ The resulting JSON of the above example is:
 ```json
 {
   "status": "failed",
-  "attachments": [],
+  "attachments": [
+    "screenshot.png"
+  ],
   "suites": [
     {
       "name": "somegroup",
       "status": "failed",
+      "metadata": {},
       "suites": [
         {
           "name": "somefile.test.js",
           "status": "failed",
+          "metadata": {},
           "suites": [],
           "attachments": [],
           "tests": [
             {
               "name": "yay",
               "status": "passed",
-              "startTime": "2021-11-09T21:10:59.550Z",
               "duration": 123,
-              "attachments": []
+              "startTime": "2023-06-16T17:42:39.568Z",
+              "attachments": [
+                "video.mp4"
+              ],
+              "metadata": {}
             },
             {
               "name": "nay",
               "status": "failed",
-              "startTime": "2021-11-09T21:10:59.550Z",
               "duration": 123,
-              "attachments": []
+              "output": "test failed",
+              "startTime": "2023-06-16T17:42:39.568Z",
+              "attachments": [
+                "video.mp4"
+              ],
+              "metadata": {}
             }
           ]
         }
       ],
-      "attachments": [],
+      "attachments": [
+        "screenshot1.png"
+      ],
       "tests": []
     }
-  ]
+  ],
+  "metadata": {}
 }
 ```
 
 The resulting JUnit file of the above example is:
 ```
 <testsuites status="failed">
-  <testsuites name="somegroup" status="failed">
-    <metadata></metadata>
-    <testsuites name="somefile.test.js" status="failed">
-      <metadata></metadata>
-      <testcase name="yay" status="passed" duration="123" startTime="2023-06-16T00:54:01.600Z">
-        <metadata></metadata>
-      </testcase>
-      <testcase name="nay" status="failed" duration="123" startTime="2023-06-16T00:54:01.600Z">
-        <metadata></metadata>
-      </testcase>
-    </testsuites>
-  </testsuites>
-  <metadata></metadata>
+  <attachments>screenshot.png</attachments>
+  <testsuite name="somegroup" status="failed">
+    <properties></properties>
+    <attachments>screenshot1.png</attachments>
+  </testsuite>
+  <testsuite name="somefile.test.js" status="failed">
+    <properties></properties>
+    <testcases name="yay" status="passed" duration="123" startTime="2023-06-16T17:42:39.568Z">
+      <attachments>video.mp4</attachments>
+      <properties></properties>
+    </testcases>
+    <testcases name="nay" status="failed" duration="123" startTime="2023-06-16T17:42:39.568Z">
+      <failure>test failed</failure>
+      <attachments>video.mp4</attachments>
+      <properties></properties>
+    </testcases>
+  </testsuite>
+  <properties></properties>
 </testsuites>
 ```
