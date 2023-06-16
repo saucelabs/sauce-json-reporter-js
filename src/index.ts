@@ -239,6 +239,7 @@ export class Test {
             _status: this.status,
             _duration: this.duration,
             _videoTimestamp: this.videoTimestamp,
+            // startTime should be a string in this case. Otherwise, XMLBuilder will not recognize the attribute name prefix.
             _startTime: this.startTime.toISOString(),
             output: this.output,
             attachments: this.attachments,
