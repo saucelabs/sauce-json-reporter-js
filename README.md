@@ -10,20 +10,25 @@ A [JSON schema](api/schema.json) describing the report is also available.
 const {TestRun, Status} = require('@saucelabs/sauce-json-reporter');
 
 let r = new TestRun()
-r.attach('screenshot.png')
+r.attach({name: 'screenshot.png', path:'./screenshot.png'})
 const s1 = r.withSuite('somegroup')
 const s2 = s1.withSuite('somefile.test.js')
-s1.attach('screenshot1.png')
+s1.attach({name: 'screenshot1.png', path: './screenshot1.png'})
 s2.withTest('yay', {
   status: Status.Passed,
   duration: 123,
-  attachments: ['video.mp4'],
+  attachments: [
+    {name: 'video.mp4', path: './video.mp4'},
+    {name: 'screenshot2.png', path: './screenshot2.png'}
+  ],
 })
 s2.withTest('nay', {
   status: Status.Failed,
   output: 'test failed',
   duration: 123,
-  attachments: ['video.mp4'],
+  attachments: [
+    {name: 'video.mp4', path: './video.mp4'},
+  ]
 })
 
 r.stringify() // returns a JSON string representing the entire test run
@@ -39,7 +44,10 @@ The resulting JSON of the above example is:
 {
   "status": "failed",
   "attachments": [
-    "screenshot.png"
+    {
+      "name": "screenshot.png",
+      "path": "./screenshot.png"
+    }
   ],
   "suites": [
     {
@@ -58,9 +66,16 @@ The resulting JSON of the above example is:
               "name": "yay",
               "status": "passed",
               "duration": 123,
-              "startTime": "2023-06-16T17:42:39.568Z",
+              "startTime": "2023-06-16T22:16:10.595Z",
               "attachments": [
-                "video.mp4"
+                {
+                  "name": "video.mp4",
+                  "path": "./video.mp4"
+                },
+                {
+                  "name": "screenshot2.png",
+                  "path": "./screenshot2.png"
+                }
               ],
               "metadata": {}
             },
@@ -69,9 +84,12 @@ The resulting JSON of the above example is:
               "status": "failed",
               "duration": 123,
               "output": "test failed",
-              "startTime": "2023-06-16T17:42:39.568Z",
+              "startTime": "2023-06-16T22:16:10.595Z",
               "attachments": [
-                "video.mp4"
+                {
+                  "name": "video.mp4",
+                  "path": "./video.mp4"
+                }
               ],
               "metadata": {}
             }
@@ -79,7 +97,10 @@ The resulting JSON of the above example is:
         }
       ],
       "attachments": [
-        "screenshot1.png"
+        {
+          "name": "screenshot1.png",
+          "path": "./screenshot1.png"
+        }
       ],
       "tests": []
     }
@@ -92,23 +113,42 @@ The resulting JUnit file of the above example is:
 ```
 <testsuites status="failed">
   <testsuite name="somegroup" status="failed">
-    <attachment>screenshot1.png</attachment>
-    <properties></properties>
+    <properties>
+      <property name="attachment" value="screenshot1.png">./screenshot1.png</property>
+      <property name="metadata">
+        <metadata/>
+      </property>
+    </properties>
   </testsuite>
   <testsuite name="somefile.test.js" status="failed">
-    <properties></properties>
-    <testcase name="yay" status="passed" duration="123" startTime="2023-06-16T20:17:04.759Z">
-      <attachment>video.mp4</attachment>
-      <attachment>screenshot2.png</attachment>
-      <properties></properties>
+    <properties>
+      <property name="metadata">
+        <metadata/>
+      </property>
+    </properties>
+    <testcase name="yay" status="passed" duration="123" startTime="2023-06-16T22:16:10.595Z">
+      <properties>
+        <property name="attachment" value="video.mp4">./video.mp4</property>
+        <property name="attachment" value="screenshot2.png">./screenshot2.png</property>
+        <property name="metadata">
+          <metadata/>
+        </property>
+      </properties>
     </testcase>
-    <testcase name="nay" status="failed" duration="123" startTime="2023-06-16T20:17:04.759Z">
+    <testcase name="nay" status="failed" duration="123" startTime="2023-06-16T22:16:10.595Z">
+      <properties>
+        <property name="attachment" value="video.mp4">./video.mp4</property>
+        <property name="metadata">
+          <metadata/>
+        </property>
+      </properties>
       <failure>test failed</failure>
-      <attachment>video.mp4</attachment>
-      <properties></properties>
     </testcase>
   </testsuite>
-  <attachment>screenshot.png</attachment>
-  <properties></properties>
-</testsuites>
-```
+  <properties>
+    <property name="attachment" value="screenshot.png">./screenshot.png</property>
+    <property name="metadata">
+      <metadata/>
+    </property>
+  </properties>
+</testsuites>```

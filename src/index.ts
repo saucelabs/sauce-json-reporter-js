@@ -28,32 +28,29 @@ export class JUnitTestCase {
     _duration: number
     _videoTimestamp?: number
     _startTime?: string
+    properties: object
 
     failure?: string
-    attachment?: Attachment[]
-    properties?: object
     code?: TestCode
 
     constructor(
         name: string,
         status: Status,
         duration: number,
+        properties: object[],
         videoTimestamp?: number,
         startTime?: string,
         failure?: string,
-        attachments?: Attachment[],
-        properties?: object,
         code?: TestCode,
     ) {
-       this._name = name 
-       this._status = status
-       this._duration = duration
-       this._videoTimestamp = videoTimestamp
-       this._startTime = startTime
-       this.failure = failure
-       this.attachment = attachments
-       this.properties = properties
-       this.code = code
+        this._name = name 
+        this._status = status
+        this._duration = duration
+        this._videoTimestamp = videoTimestamp
+        this._startTime = startTime
+        this.failure = failure
+        this.properties = { property: properties }
+        this.code = code
     }
 }
 
@@ -63,21 +60,18 @@ export class JUnitTestCase {
 export class JUnitTestSuite {
     _name: string
     _status: Status
-    attachment: Attachment[]
     properties: object
     testcase: JUnitTestCase[] // to correctly build an array using XMLBuilder, testcase should be kept in the singular form.
 
     constructor(
         name: string,
         status: Status,    
-        attachments: Attachment[],
-        properties: object,
+        properties: object[],
         testcases: JUnitTestCase[],
     ) {
         this._name = name
         this._status = status
-        this.attachment = attachments
-        this.properties = properties
+        this.properties = { property: properties }
         this.testcase = testcases
     }
 }
@@ -88,20 +82,39 @@ export class JUnitTestSuite {
 export class JUnitReport {
     testsuite: JUnitTestSuite[] // to correctly build an array using XMLBuilder, testsuite should be kept in the singular form.
     _status: Status
-    attachment: Attachment[]
     properties: object
 
     constructor(
         testsuites: JUnitTestSuite[],
         status: Status,
-        attachments: Attachment[],
-        properties: object,
+        properties: object[],
     ) {
         this.testsuite = testsuites
         this._status = status
-        this.attachment = attachments
-        this.properties = properties
+        this.properties = { property: properties }
     }
+}
+
+/**
+ * toProperty converts attachments and metadata to JUnit properties.
+ */
+function toProperty(
+    attachments: Attachment[],
+    metadata: object,
+) {
+    const properties: object[] = [];
+    attachments.forEach(attachment => {
+        properties.push({
+            _name: 'attachment',
+            _value: attachment.name,
+            '#text': attachment.path,
+        })
+    })
+    properties.push({
+        _name: 'metadata',
+        metadata,
+    })
+    return properties
 }
 
 /**
@@ -164,11 +177,11 @@ export class TestRun {
         this.suites.forEach(suite => {
             testsuites.push(...suite.toJUnitObj())
         })
+
         return new JUnitReport(
             testsuites,
             this.status,
-            this.attachments,
-            this.metadata,
+            toProperty(this.attachments, this.metadata),
         )
     }
 
@@ -176,7 +189,8 @@ export class TestRun {
         const options = {
             ignoreAttributes: false,
             attributeNamePrefix: "_",
-            format: true
+            format: true,
+            suppressEmptyNode: true,
         }
         const builder = new XMLBuilder(options)
         const xml = builder.build({ testsuites: this.toJUnitObj() })
@@ -265,8 +279,7 @@ export class Suite {
             new JUnitTestSuite(
                 this.name,
                 this.status,
-                this.attachments,
-                this.metadata,
+                toProperty(this.attachments, this.metadata),
                 testcases,
             )
         ]
@@ -323,12 +336,11 @@ export class Test {
             this.name,
             this.status,
             this.duration,
+            toProperty(this.attachments || [], this.metadata),
             this.videoTimestamp,
             // startTime should be a string in this case. Otherwise, XMLBuilder will not recognize the attribute name prefix.
             this.startTime.toISOString(),
             this.output,
-            this.attachments,
-            this.metadata,
             this.code
         )
     }
