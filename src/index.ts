@@ -28,6 +28,7 @@ export class JUnitTestCase {
     _duration: number
     _videoTimestamp?: number
     _startTime?: string
+
     failure?: string
     attachment?: Attachment[]
     properties?: object
@@ -64,7 +65,7 @@ export class JUnitTestSuite {
     _status: Status
     attachment: Attachment[]
     properties: object
-    testcase: JUnitTestCase[]
+    testcase: JUnitTestCase[] // to correctly build an array using XMLBuilder, testcase should be kept in the singular form.
 
     constructor(
         name: string,
@@ -85,7 +86,7 @@ export class JUnitTestSuite {
  * JUnitReport represents a JUnit report.
  */
 export class JUnitReport {
-    testsuite: JUnitTestSuite[]
+    testsuite: JUnitTestSuite[] // to correctly build an array using XMLBuilder, testsuite should be kept in the singular form.
     _status: Status
     attachment: Attachment[]
     properties: object
@@ -154,7 +155,7 @@ export class TestRun {
         return JSON.stringify(this, null, 2)
     }
 
-    toJUnitObj(computeStatus = true): object {
+    toJUnitObj(computeStatus = true): JUnitReport {
         if (computeStatus) {
             this.computeStatus()
         }
