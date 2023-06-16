@@ -151,4 +151,5 @@ The resulting JUnit file of the above example is:
       <metadata/>
     </property>
   </properties>
-</testsuites>```
+</testsuites>
+```
