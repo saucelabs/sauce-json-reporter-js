@@ -23,7 +23,7 @@ s2.withTest('nay', {
 
 r.stringify() // returns a JSON string representing the entire test run
 // or
-r.toFile('myreport.json') // writes the JSON to a file instead
+r.toFile('my_json_report.json') // writes the JSON to a file instead
 // or
 r.toJUnitFile('my_junit_report.xml') // converts and writes the result to a JUnit file
 ```

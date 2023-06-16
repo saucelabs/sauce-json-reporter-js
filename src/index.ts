@@ -25,13 +25,13 @@ export interface Attachment {
 export class JUnitTestRun {
     _status: Status
     attachments: Attachment[]
-    testsuites: JUnitSuite[]
+    testsuites: JUnitTestCaseSuite[]
     metadata: object
 
     constructor(
         status: Status,
         attachments: Attachment[],
-        suites: JUnitSuite[],
+        suites: JUnitTestCaseSuite[],
         metadata: object,
     ) {
         this._status = status
@@ -92,8 +92,12 @@ export class TestRun {
         return JSON.stringify(this, null, 2)
     }
 
-    toJUnitObj(): JUnitTestRun {
-        const suites: JUnitSuite[] = [];
+    toJUnitObj(computeStatus = true): JUnitTestRun {
+        if (computeStatus) {
+            this.computeStatus()
+        }
+
+        const suites: JUnitTestCaseSuite[] = [];
         this.suites.forEach(suite => {
             suites.push(suite.toJUnitObj())
         })
@@ -105,10 +109,7 @@ export class TestRun {
         )
     }
 
-    toJUnitFile(filepath: string, computeStatus = true) {
-        if (computeStatus) {
-            this.computeStatus()
-        }
+    toJUnitFile(filepath: string) {
         const options = {
             ignoreAttributes: false,
             attributeNamePrefix: "_",
@@ -128,23 +129,23 @@ export class TestRun {
 }
 
 /**
- * JUnitSuite represents a group of JUnitTests. It may be nested as part of another JUnitSuite.
+ * JUnitTestCaseSuite represents a group of JUnitTestCases. It may be nested as part of another JUnitTestCaseSuite.
  */
-export class JUnitSuite {
+export class JUnitTestCaseSuite {
     _name: string
     _status: Status
     metadata: object
-    testsuites: JUnitSuite[]
+    testsuites: JUnitTestCaseSuite[]
     attachments: Attachment[]
-    testcase: JUnitTest[]
+    testcase: JUnitTestCase[]
 
     constructor(
         name: string,
         status: Status,
         metadata: object,
-        suites: JUnitSuite[],
+        suites: JUnitTestCaseSuite[],
         attachments: Attachment[],
-        tests: JUnitTest[],
+        tests: JUnitTestCase[],
         ) {
         this._name = name
         this._status = status
@@ -219,17 +220,17 @@ export class Suite {
         return test
     }
 
-    toJUnitObj(): JUnitSuite {
-        const suites: JUnitSuite[] = []
+    toJUnitObj(): JUnitTestCaseSuite {
+        const suites: JUnitTestCaseSuite[] = []
         this.suites.forEach(suite => {
             suites.push(suite.toJUnitObj())
         })
-        const tests: JUnitTest[] = []
+        const tests: JUnitTestCase[] = []
         this.tests.forEach(test => {
             tests.push(test.toJUnitObj())
         })
 
-        return new JUnitSuite(
+        return new JUnitTestCaseSuite(
             this.name,
             this.status,
             this.metadata,
@@ -241,9 +242,9 @@ export class Suite {
 }
 
 /**
- * JUnitTest represents a single, individual test in JUnit format.
+ * JUnitTestCase represents a single, individual test in JUnit format.
  */
-class JUnitTest {
+class JUnitTestCase {
     _name: string
     _status: Status
     _duration: number
@@ -318,8 +319,8 @@ export class Test {
         this.attachments?.push(attachment)
     }
 
-    toJUnitObj(): JUnitTest {
-        const test: JUnitTest = new JUnitTest(
+    toJUnitObj(): JUnitTestCase {
+        const test: JUnitTestCase = new JUnitTestCase(
             this.name,
             this.status,
             this.duration,
