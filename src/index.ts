@@ -112,7 +112,7 @@ function toProperty(
     Object.keys(metadata).forEach(key => {
         properties.push({
             _name: key,
-            _value: (metadata as any)[key],
+            _value: JSON.stringify((metadata as any)[key]),
         })
     });
    return properties
