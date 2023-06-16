@@ -25,13 +25,13 @@ export interface Attachment {
 export class JUnitTestRun {
     _status: Status
     attachments: Attachment[]
-    testsuites: JUnitTestCaseSuite[]
+    testsuites: JUnitTestSuite[]
     metadata: object
 
     constructor(
         status: Status,
         attachments: Attachment[],
-        suites: JUnitTestCaseSuite[],
+        suites: JUnitTestSuite[],
         metadata: object,
     ) {
         this._status = status
@@ -97,7 +97,7 @@ export class TestRun {
             this.computeStatus()
         }
 
-        const suites: JUnitTestCaseSuite[] = [];
+        const suites: JUnitTestSuite[] = [];
         this.suites.forEach(suite => {
             suites.push(suite.toJUnitObj())
         })
@@ -129,13 +129,13 @@ export class TestRun {
 }
 
 /**
- * JUnitTestCaseSuite represents a group of JUnitTestCases. It may be nested as part of another JUnitTestCaseSuite.
+ * JUnitTestSuite represents a group of JUnitTestCases. It may be nested as part of another JUnitTestSuite.
  */
-export class JUnitTestCaseSuite {
+export class JUnitTestSuite {
     _name: string
     _status: Status
     metadata: object
-    testsuites: JUnitTestCaseSuite[]
+    testsuites: JUnitTestSuite[]
     attachments: Attachment[]
     testcase: JUnitTestCase[]
 
@@ -143,7 +143,7 @@ export class JUnitTestCaseSuite {
         name: string,
         status: Status,
         metadata: object,
-        suites: JUnitTestCaseSuite[],
+        suites: JUnitTestSuite[],
         attachments: Attachment[],
         tests: JUnitTestCase[],
         ) {
@@ -220,8 +220,8 @@ export class Suite {
         return test
     }
 
-    toJUnitObj(): JUnitTestCaseSuite {
-        const suites: JUnitTestCaseSuite[] = []
+    toJUnitObj(): JUnitTestSuite {
+        const suites: JUnitTestSuite[] = []
         this.suites.forEach(suite => {
             suites.push(suite.toJUnitObj())
         })
@@ -230,7 +230,7 @@ export class Suite {
             tests.push(test.toJUnitObj())
         })
 
-        return new JUnitTestCaseSuite(
+        return new JUnitTestSuite(
             this.name,
             this.status,
             this.metadata,
