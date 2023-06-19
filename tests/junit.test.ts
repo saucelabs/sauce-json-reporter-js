@@ -9,18 +9,33 @@ describe('toJUnitObj', function () {
         s2.withTest('yay', {
             status: Status.Passed,
             duration: 123,
-        })
-        s2.withTest('nay', {
+            attachments: [
+              {name: 'video.mp4', path: './video.mp4', contentType: 'video/mp4'},
+            ],
+          })
+          s2.withTest('nay', {
             status: Status.Failed,
             output: 'test failed',
             duration: 123,
+            attachments: [
+              {name: 'video.mp4', path: './video.mp4', contentType: 'video/mp4'},
+            ]
+          })
+          s2.withTest('oops', {
+            status: Status.Skipped,
+            output: 'test skipped',
+            duration: 123,
+          })    
         })
-    })
 
     it('should convert to JUnit object', function() {
         const jObj = run.toJUnitObj()
         expect(jObj.testsuite.length).toBe(2)
         expect(jObj.testsuite[0].testcase.length).toBe(0)
-        expect(jObj.testsuite[1].testcase.length).toBe(2)
+        expect(jObj.testsuite[1].testcase.length).toBe(3)
+        expect(jObj.testsuite[1].testcase[0]._name).toBe('yay')
+        expect(jObj.testsuite[1].testcase[0]._time).toBe(123)
+        expect(jObj.testsuite[1].testcase[1].failure).not.toBe(undefined)
+        expect(jObj.testsuite[1].testcase[2].skipped).not.toBe(undefined)
     })
 })
