@@ -30,6 +30,15 @@ s2.withTest('nay', {
     {name: 'video.mp4', path: './video.mp4'},
   ]
 })
+s2.withTest('oops', {
+  status: Status.Skipped,
+  output: 'test skipped',
+  duration: 123,
+})
+
+r.metadata = {
+  'id': '123'
+}
 
 r.stringify() // returns a JSON string representing the entire test run
 // or
@@ -66,7 +75,7 @@ The resulting JSON of the above example is:
               "name": "yay",
               "status": "passed",
               "duration": 123,
-              "startTime": "2023-06-16T22:16:10.595Z",
+              "startTime": "2023-06-19T18:26:06.227Z",
               "attachments": [
                 {
                   "name": "video.mp4",
@@ -84,13 +93,22 @@ The resulting JSON of the above example is:
               "status": "failed",
               "duration": 123,
               "output": "test failed",
-              "startTime": "2023-06-16T22:16:10.595Z",
+              "startTime": "2023-06-19T18:26:06.227Z",
               "attachments": [
                 {
                   "name": "video.mp4",
                   "path": "./video.mp4"
                 }
               ],
+              "metadata": {}
+            },
+            {
+              "name": "oops",
+              "status": "skipped",
+              "duration": 123,
+              "output": "test skipped",
+              "startTime": "2023-06-19T18:26:06.227Z",
+              "attachments": [],
               "metadata": {}
             }
           ]
@@ -105,36 +123,46 @@ The resulting JSON of the above example is:
       "tests": []
     }
   ],
-  "metadata": {}
+  "metadata": {
+    "id": "123"
+  }
 }
 ```
 
 The resulting JUnit file of the above example is:
 ```
-<testsuites status="failed" tests="2" failures="1" skipped="0" time="246">
+<testsuites status="failed" tests="3" failures="1" skipped="1" time="369">
   <testsuite name="somegroup" status="failed" tests="0" failures="0" skipped="0" time="0">
     <properties>
       <property name="attachment" value="screenshot1.png">./screenshot1.png</property>
     </properties>
   </testsuite>
-  <testsuite name="somefile.test.js" status="failed" tests="2" failures="1" skipped="0" time="246">
+  <testsuite name="somefile.test.js" status="failed" tests="3" failures="1" skipped="1" time="369">
     <properties/>
-    <testcase name="yay" status="passed" time="123" timestamp="2023-06-19T17:39:47.571Z">
+    <testcase name="yay" status="passed" time="123" timestamp="2023-06-19T18:26:06.227Z">
       <properties>
         <property name="attachment" value="video.mp4">./video.mp4</property>
         <property name="attachment" value="screenshot2.png">./screenshot2.png</property>
       </properties>
     </testcase>
-    <testcase name="nay" status="failed" time="123" timestamp="2023-06-19T17:39:47.571Z">
+    <testcase name="nay" status="failed" time="123" timestamp="2023-06-19T18:26:06.227Z">
       <properties>
         <property name="attachment" value="video.mp4">./video.mp4</property>
       </properties>
-      <failure>test failed</failure>
+      <failure>
+        <![CDATA[test failed]]>
+      </failure>
+    </testcase>
+    <testcase name="oops" status="skipped" time="123" timestamp="2023-06-19T18:26:06.227Z">
+      <properties/>
+      <skipped>
+        <![CDATA[test skipped]]>
+      </skipped>
     </testcase>
   </testsuite>
   <properties>
     <property name="attachment" value="screenshot.png">./screenshot.png</property>
-    <property name="id" value="my_id"/>
+    <property name="id" value="123"/>
   </properties>
 </testsuites>
 ```

@@ -29,7 +29,8 @@ export class JUnitTestCase {
     _timestamp: string
     _videoTimestamp?: number
     properties: object
-    failure?: string
+    failure?: object
+    skipped?: object
     code?: TestCode
 
     constructor(
@@ -39,7 +40,7 @@ export class JUnitTestCase {
         properties: object[],
         timestamp: string,
         videoTimestamp?: number,
-        failure?: string,
+        output?: string,
         code?: TestCode,
     ) {
         this._name = name 
@@ -47,9 +48,14 @@ export class JUnitTestCase {
         this._time = time
         this._timestamp = timestamp
         this._videoTimestamp = videoTimestamp
-        this.failure = failure
         this.properties = { property: properties }
         this.code = code
+        if (status === Status.Failed) {
+            this.failure = { output }
+        }
+        if (status === Status.Skipped) {
+            this.skipped = { output }
+        }
     }
 }
 
@@ -223,6 +229,7 @@ export class TestRun {
             attributeNamePrefix: "_",
             format: true,
             suppressEmptyNode: true,
+            cdataPropName: "output",
         }
         const builder = new XMLBuilder(options)
         const xml = builder.build({ testsuites: this.toJUnitObj() })
