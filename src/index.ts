@@ -51,8 +51,6 @@ export class JUnitTestCase {
         this.properties = { property: properties }
         this.code = code
     }
-
-
 }
 
 /**
@@ -64,6 +62,7 @@ export class JUnitTestSuite {
     _tests: number
     _failures: number
     _skipped: number
+    _time: number
     properties: object
     testcase: JUnitTestCase[] // to correctly build an array using XMLBuilder, testcase should be kept in the singular form.
 
@@ -80,6 +79,7 @@ export class JUnitTestSuite {
         this._tests = testcases.length
         this._failures = 0
         this._skipped = 0
+        this._time = 0
         this.testcase.forEach(testcase => {
             if (testcase._status === Status.Failed) {
                 this._failures += 1
@@ -87,6 +87,7 @@ export class JUnitTestSuite {
             if (testcase._status === Status.Skipped) {
                 this._skipped += 1
             }
+            this._time += testcase._time
         })
     }
 }
@@ -99,6 +100,7 @@ export class JUnitReport {
     _tests: number
     _failures: number
     _skipped: number
+    _time: number
     testsuite: JUnitTestSuite[] // to correctly build an array using XMLBuilder, testsuite should be kept in the singular form.
     properties: object
 
@@ -113,10 +115,12 @@ export class JUnitReport {
         this._failures = 0
         this._skipped = 0
         this._tests = 0
+        this._time = 0
         this.testsuite.forEach(testsuite => {
             this._failures += testsuite._failures
             this._skipped += testsuite._skipped
             this._tests += testsuite._tests
+            this._time += testsuite._time
         })
     }
 }
@@ -139,7 +143,7 @@ function toProperty(
     Object.keys(metadata).forEach(key => {
         properties.push({
             _name: key,
-            _value: JSON.stringify((metadata as any)[key]),
+            _value: (metadata as any)[key],
         })
     });
    return properties
