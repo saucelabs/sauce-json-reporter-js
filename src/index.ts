@@ -25,7 +25,7 @@ export interface Attachment {
 export class JUnitTestCase {
     _name: string
     _status: Status
-    _duration: number
+    _time: number
     _timestamp: string
     _videoTimestamp?: number
     properties: object
@@ -35,7 +35,7 @@ export class JUnitTestCase {
     constructor(
         name: string,
         status: Status,
-        duration: number,
+        time: number,
         properties: object[],
         timestamp: string,
         videoTimestamp?: number,
@@ -44,13 +44,15 @@ export class JUnitTestCase {
     ) {
         this._name = name 
         this._status = status
-        this._duration = duration
+        this._time = time
         this._timestamp = timestamp
         this._videoTimestamp = videoTimestamp
         this.failure = failure
         this.properties = { property: properties }
         this.code = code
     }
+
+
 }
 
 /**
@@ -59,6 +61,9 @@ export class JUnitTestCase {
 export class JUnitTestSuite {
     _name: string
     _status: Status
+    _tests: number
+    _failures: number
+    _skipped: number
     properties: object
     testcase: JUnitTestCase[] // to correctly build an array using XMLBuilder, testcase should be kept in the singular form.
 
@@ -72,6 +77,17 @@ export class JUnitTestSuite {
         this._status = status
         this.properties = { property: properties }
         this.testcase = testcases
+        this._tests = testcases.length
+        this._failures = 0
+        this._skipped = 0
+        this.testcase.forEach(testcase => {
+            if (testcase._status === Status.Failed) {
+                this._failures += 1
+            }
+            if (testcase._status === Status.Skipped) {
+                this._skipped += 1
+            }
+        })
     }
 }
 
@@ -80,6 +96,9 @@ export class JUnitTestSuite {
  */
 export class JUnitReport {
     _status: Status
+    _tests: number
+    _failures: number
+    _skipped: number
     testsuite: JUnitTestSuite[] // to correctly build an array using XMLBuilder, testsuite should be kept in the singular form.
     properties: object
 
@@ -91,6 +110,14 @@ export class JUnitReport {
         this.testsuite = testsuites
         this._status = status
         this.properties = { property: properties }
+        this._failures = 0
+        this._skipped = 0
+        this._tests = 0
+        this.testsuite.forEach(testsuite => {
+            this._failures += testsuite._failures
+            this._skipped += testsuite._skipped
+            this._tests += testsuite._tests
+        })
     }
 }
 
