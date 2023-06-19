@@ -26,7 +26,7 @@ export class JUnitTestCase {
     _name: string
     _status: Status
     _duration: number
-    _startTime: string
+    _timestamp: string
     _videoTimestamp?: number
     properties: object
     failure?: string
@@ -37,7 +37,7 @@ export class JUnitTestCase {
         status: Status,
         duration: number,
         properties: object[],
-        startTime: string,
+        timestamp: string,
         videoTimestamp?: number,
         failure?: string,
         code?: TestCode,
@@ -45,7 +45,7 @@ export class JUnitTestCase {
         this._name = name 
         this._status = status
         this._duration = duration
-        this._startTime = startTime
+        this._timestamp = timestamp
         this._videoTimestamp = videoTimestamp
         this.failure = failure
         this.properties = { property: properties }

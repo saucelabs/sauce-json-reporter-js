@@ -119,13 +119,13 @@ The resulting JUnit file of the above example is:
   </testsuite>
   <testsuite name="somefile.test.js" status="failed">
     <properties/>
-    <testcase name="yay" status="passed" duration="123" startTime="2023-06-16T23:51:37.913Z">
+    <testcase name="yay" status="passed" duration="123" timestamp="2023-06-19T16:39:39.791Z">
       <properties>
         <property name="attachment" value="video.mp4">./video.mp4</property>
         <property name="attachment" value="screenshot2.png">./screenshot2.png</property>
       </properties>
     </testcase>
-    <testcase name="nay" status="failed" duration="123" startTime="2023-06-16T23:51:37.913Z">
+    <testcase name="nay" status="failed" duration="123" timestamp="2023-06-19T16:39:39.791Z">
       <properties>
         <property name="attachment" value="video.mp4">./video.mp4</property>
       </properties>
@@ -134,7 +134,9 @@ The resulting JUnit file of the above example is:
   </testsuite>
   <properties>
     <property name="attachment" value="screenshot.png">./screenshot.png</property>
-    <property name="id" value="my_id"/>
+    <property name="ids" value="{&quot;test&quot;:1,&quot;test2&quot;:2}"/>
+    <property name="attached" value="false"/>
+    <property name="count" value="3"/>
   </properties>
 </testsuites>
 ```
