@@ -49,9 +49,7 @@ export class JUnitTestCase {
         this._timestamp = timestamp
         this._videoTimestamp = videoTimestamp
         this.code = code
-        if (properties.length > 0) {
-            this.properties = { property: properties }
-        }
+        this.properties = (properties.length > 0) ? { property: properties } : undefined
         if (status === Status.Failed) {
             this.failure = { output }
         }
@@ -87,9 +85,7 @@ export class JUnitTestSuite {
         this._failures = 0
         this._skipped = 0
         this._time = 0
-        if (properties.length > 0) {
-            this.properties = { property: properties }
-        }
+        this.properties = (properties.length > 0) ? { property: properties } : undefined
         this.testcase.forEach(testcase => {
             if (testcase._status === Status.Failed) {
                 this._failures += 1
@@ -125,9 +121,7 @@ export class JUnitReport {
         this._skipped = 0
         this._tests = 0
         this._time = 0
-        if (properties.length > 0) {
-            this.properties = { property: properties }
-        }
+        this.properties = (properties.length > 0) ? { property: properties } : undefined
         this.testsuite.forEach(testsuite => {
             this._failures += testsuite._failures
             this._skipped += testsuite._skipped
