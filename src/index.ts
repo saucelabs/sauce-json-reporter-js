@@ -303,7 +303,17 @@ export class Suite {
         name: string,
         options: HasKeyOf<Test> = {},
     ): Test {
-        const test = new Test(name, options.status, options.duration, options.output, options.startTime, options.attachments, options.metadata, options.code, options.videoTimestamp)
+        const test = new Test(
+            name,
+            options.status,
+            options.duration,
+            options.output,
+            options.startTime,
+            options.attachments,
+            options.metadata,
+            options.code,
+            options.videoTimestamp
+        )
         this.addTest(test)
         return test
     }
