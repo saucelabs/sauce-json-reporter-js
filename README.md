@@ -138,14 +138,13 @@ The resulting JUnit file of the above example is:
     </properties>
   </testsuite>
   <testsuite name="somefile.test.js" status="failed" tests="3" failures="1" skipped="1" time="369">
-    <properties/>
-    <testcase name="yay" status="passed" time="123" timestamp="2023-06-19T18:26:06.227Z">
+    <testcase name="yay" status="passed" time="123" timestamp="2023-06-20T21:32:07.467Z">
       <properties>
         <property name="attachment" value="video.mp4">./video.mp4</property>
         <property name="attachment" value="screenshot2.png">./screenshot2.png</property>
       </properties>
     </testcase>
-    <testcase name="nay" status="failed" time="123" timestamp="2023-06-19T18:26:06.227Z">
+    <testcase name="nay" status="failed" time="123" timestamp="2023-06-20T21:32:07.467Z">
       <properties>
         <property name="attachment" value="video.mp4">./video.mp4</property>
       </properties>
@@ -153,8 +152,7 @@ The resulting JUnit file of the above example is:
         <![CDATA[test failed]]>
       </failure>
     </testcase>
-    <testcase name="oops" status="skipped" time="123" timestamp="2023-06-19T18:26:06.227Z">
-      <properties/>
+    <testcase name="oops" status="skipped" time="123" timestamp="2023-06-20T21:32:07.467Z">
       <skipped>
         <![CDATA[test skipped]]>
       </skipped>

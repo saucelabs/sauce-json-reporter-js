@@ -28,7 +28,7 @@ export class JUnitTestCase {
     _time: number
     _timestamp: string
     _videoTimestamp?: number
-    properties: object
+    properties?: object
     failure?: object
     skipped?: object
     code?: TestCode
@@ -48,8 +48,10 @@ export class JUnitTestCase {
         this._time = time
         this._timestamp = timestamp
         this._videoTimestamp = videoTimestamp
-        this.properties = { property: properties }
         this.code = code
+        if (properties.length > 0) {
+            this.properties = { property: properties }
+        }
         if (status === Status.Failed) {
             this.failure = { output }
         }
@@ -69,7 +71,7 @@ export class JUnitTestSuite {
     _failures: number
     _skipped: number
     _time: number
-    properties: object
+    properties?: object
     testcase: JUnitTestCase[] // to correctly build an array using XMLBuilder, testcase should be kept in the singular form.
 
     constructor(
@@ -80,12 +82,14 @@ export class JUnitTestSuite {
     ) {
         this._name = name
         this._status = status
-        this.properties = { property: properties }
         this.testcase = testcases
         this._tests = testcases.length
         this._failures = 0
         this._skipped = 0
         this._time = 0
+        if (properties.length > 0) {
+            this.properties = { property: properties }
+        }
         this.testcase.forEach(testcase => {
             if (testcase._status === Status.Failed) {
                 this._failures += 1
@@ -108,7 +112,7 @@ export class JUnitReport {
     _skipped: number
     _time: number
     testsuite: JUnitTestSuite[] // to correctly build an array using XMLBuilder, testsuite should be kept in the singular form.
-    properties: object
+    properties?: object
 
     constructor(
         testsuites: JUnitTestSuite[],
@@ -117,11 +121,13 @@ export class JUnitReport {
     ) {
         this.testsuite = testsuites
         this._status = status
-        this.properties = { property: properties }
         this._failures = 0
         this._skipped = 0
         this._tests = 0
         this._time = 0
+        if (properties.length > 0) {
+            this.properties = { property: properties }
+        }
         this.testsuite.forEach(testsuite => {
             this._failures += testsuite._failures
             this._skipped += testsuite._skipped
