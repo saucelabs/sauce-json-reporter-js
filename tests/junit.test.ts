@@ -34,6 +34,7 @@ describe('toJUnitObj', function () {
             },
             ids: [1, 2, 3]
         }
+        run.computeStatus()
    })
 
     it('should convert to JUnit object', function() {
