@@ -206,11 +206,7 @@ export class TestRun {
         return JSON.stringify(this, null, 2)
     }
 
-    toJUnitObj(computeStatus = true): JUnitReport {
-        if (computeStatus) {
-            this.computeStatus()
-        }
-
+    toJUnitObj(): JUnitReport {
         const testsuites: JUnitTestSuite[] = [];
         this.suites.forEach(suite => {
             testsuites.push(...suite.toJUnitObj())
@@ -223,7 +219,11 @@ export class TestRun {
         )
     }
 
-    toJUnitFile(filepath: string) {
+    toJUnitFile(filepath: string, computeStatus = true) {
+        if (computeStatus) {
+            this.computeStatus()
+        }
+
         const options = {
             ignoreAttributes: false,
             attributeNamePrefix: "_",
