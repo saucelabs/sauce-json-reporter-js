@@ -31,7 +31,6 @@ export class JUnitTestCase {
     properties?: object
     failure?: object
     skipped?: object
-    code?: TestCode
 
     constructor(
         name: string,
@@ -41,14 +40,12 @@ export class JUnitTestCase {
         timestamp: string,
         videoTimestamp?: number,
         output?: string,
-        code?: TestCode,
     ) {
         this._name = name 
         this._status = status
         this._time = time
         this._timestamp = timestamp
         this._videoTimestamp = videoTimestamp
-        this.code = code
         this.properties = (properties.length > 0) ? { property: properties } : undefined
         if (status === Status.Failed) {
             this.failure = { output }
@@ -389,8 +386,7 @@ export class Test {
             // startTime should be a string in this case. Otherwise, XMLBuilder will not recognize the attribute name prefix.
             this.startTime.toISOString(),
             this.videoTimestamp,
-            this.output,
-            this.code
+            this.output
         )
     }
 }
