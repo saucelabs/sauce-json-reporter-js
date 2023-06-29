@@ -59,7 +59,7 @@
           },
           "duration": {
             "type": "integer",
-            "description": "Duration of the test in seconds."
+            "description": "Duration of the test in milliseconds."
           },
           "output": {
             "type": "string",

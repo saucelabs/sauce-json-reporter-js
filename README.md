@@ -131,20 +131,20 @@ The resulting JSON of the above example is:
 
 The resulting JUnit file of the above example is:
 ```
-<testsuites status="failed" tests="3" failures="1" skipped="1" time="369">
+<testsuites status="failed" tests="3" failures="1" skipped="1" time="0.369">
   <testsuite name="somegroup" status="failed" tests="0" failures="0" skipped="0" time="0">
     <properties>
       <property name="attachment" value="screenshot1.png">./screenshot1.png</property>
     </properties>
   </testsuite>
-  <testsuite name="somefile.test.js" status="failed" tests="3" failures="1" skipped="1" time="369">
-    <testcase name="yay" status="passed" time="123" timestamp="2023-06-20T21:32:07.467Z">
+  <testsuite name="somefile.test.js" status="failed" tests="3" failures="1" skipped="1" time="0.369">
+    <testcase name="yay" status="passed" time="0.123" timestamp="2023-06-20T21:32:07.467Z">
       <properties>
         <property name="attachment" value="video.mp4">./video.mp4</property>
         <property name="attachment" value="screenshot2.png">./screenshot2.png</property>
       </properties>
     </testcase>
-    <testcase name="nay" status="failed" time="123" timestamp="2023-06-20T21:32:07.467Z">
+    <testcase name="nay" status="failed" time="0.123" timestamp="2023-06-20T21:32:07.467Z">
       <properties>
         <property name="attachment" value="video.mp4">./video.mp4</property>
       </properties>
@@ -152,7 +152,7 @@ The resulting JUnit file of the above example is:
         <![CDATA[test failed]]>
       </failure>
     </testcase>
-    <testcase name="oops" status="skipped" time="123" timestamp="2023-06-20T21:32:07.467Z">
+    <testcase name="oops" status="skipped" time="0.123" timestamp="2023-06-20T21:32:07.467Z">
       <skipped>
         <![CDATA[test skipped]]>
       </skipped>
