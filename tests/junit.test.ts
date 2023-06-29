@@ -44,7 +44,7 @@ describe('toJUnitObj', function () {
         expect(jObj._tests).toBe(3)
         expect(jObj._failures).toBe(1)
         expect(jObj._skipped).toBe(1)
-        expect(jObj._time).toBe(369)
+        expect(jObj._time).toBe(0.369)
         expect(jObj.testsuite[0].testcase.length).toBe(0)
         expect(jObj.testsuite[0].properties).toBe(undefined)
         expect(jObj.testsuite[1].testcase.length).toBe(3)

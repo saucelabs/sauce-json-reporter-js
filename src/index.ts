@@ -381,7 +381,7 @@ export class Test {
         return new JUnitTestCase(
             this.name,
             this.status,
-            this.duration,
+            this.duration/1000.0,
             toProperty(this.attachments || [], this.metadata),
             // startTime should be a string in this case. Otherwise, XMLBuilder will not recognize the attribute name prefix.
             this.startTime.toISOString(),
