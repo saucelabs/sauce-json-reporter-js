@@ -55,7 +55,7 @@ describe('toJUnitObj', function () {
         expect((jObj.testsuite[1].properties as any).property[2]._name).toBe('ids')
         expect((jObj.testsuite[1].properties as any).property[2]._value).toStrictEqual([1, 2, 3])
         expect(jObj.testsuite[1].testcase[0]._name).toBe('yay')
-        expect(jObj.testsuite[1].testcase[0]._time).toBe(123)
+        expect(jObj.testsuite[1].testcase[0]._time).toBe(0.123)
         expect(jObj.testsuite[1].testcase[1].failure).not.toBe(undefined)
         expect(jObj.testsuite[1].testcase[2].skipped).not.toBe(undefined)
     })
