@@ -1,6 +1,6 @@
 import myJsonSchema from "../api/schema.json"
 import {Status, Suite, TestRun} from '../src'
-import {Draft07, Draft, JSONError} from "json-schema-library"
+import {Draft07, Draft, JsonError} from "json-schema-library"
 
 
 describe('json report', function () {
@@ -17,14 +17,14 @@ describe('json report', function () {
     r.computeStatus()
 
     const jsonSchema: Draft = new Draft07(myJsonSchema)
-    const errors: JSONError[] = jsonSchema.validate(JSON.parse(r.stringify()))
+    const errors: JsonError[] = jsonSchema.validate(JSON.parse(r.stringify()))
 
     expect(errors).toStrictEqual([])
   })
 
   it('fails against schema', function () {
     const jsonSchema: Draft = new Draft07(myJsonSchema)
-    const errors: JSONError[] = jsonSchema.validate({})
+    const errors: JsonError[] = jsonSchema.validate({})
 
     expect(errors.length).toBeGreaterThan(0)
   })
