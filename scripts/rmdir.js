@@ -1,9 +1,9 @@
-const fs = require("fs")
+const fs = require('fs');
 
-let args = process.argv.slice(2)
+let args = process.argv.slice(2);
 
 args.forEach(function (arg) {
-    if (fs.existsSync(arg)) {
-        fs.rmSync(arg, {recursive: true});
-    }
+  if (fs.existsSync(arg)) {
+    fs.rmSync(arg, { recursive: true });
+  }
 });
