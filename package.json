@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build": "npx rimraf lib && tsc",
-    "lint": "prettier --check '**/*.{js,ts,mjs,cjs}' && eslint .",
+    "lint": "prettier --check '**/*.{js,ts,mjs,cjs}' && eslint src/ tests/",
     "fmt": "prettier --write '**/*.{js,ts,mjs,cjs}'",
     "prepare": "husky",
     "test": "jest",
