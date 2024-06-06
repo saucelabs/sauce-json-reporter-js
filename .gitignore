@@ -1,4 +1,5 @@
 /lib/
 node_modules/
 my_json_report.json
+.DS_Store
 
